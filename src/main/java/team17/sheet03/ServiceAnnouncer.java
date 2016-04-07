@@ -16,6 +16,7 @@ public class ServiceAnnouncer extends Thread {
     private final int port;
 
     private DatagramSocket socket;
+    private Thread shutdownhook;
 
     public ServiceAnnouncer(String serviceName, String ipAddress, int port) {
         this.serviceName = serviceName;
@@ -25,7 +26,7 @@ public class ServiceAnnouncer extends Thread {
 
     public void StartService() {
 
-        Runtime.getRuntime().addShutdownHook(new Thread() {
+       shutdownhook = new Thread() {
             public void run() {
                 System.out.println("Shutdown request received");
 
@@ -39,7 +40,9 @@ public class ServiceAnnouncer extends Thread {
                     e.printStackTrace();
                 }
             }
-        });
+        };
+
+        Runtime.getRuntime().addShutdownHook(shutdownhook);
 
         this.start();
     }
@@ -78,9 +81,11 @@ public class ServiceAnnouncer extends Thread {
         }
     }
 
-    public void StopService(){
+    public void StopService() throws InterruptedException {
 
         System.out.println("Stop service request received");
+        Runtime.getRuntime().removeShutdownHook(shutdownhook);
+        Thread.sleep(500);
 
         if (!socket.isClosed()) {
             socket.close();
