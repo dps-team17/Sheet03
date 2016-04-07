@@ -49,17 +49,15 @@ public class ServiceAnnouncer extends Thread {
         try {
             socket = new DatagramSocket(7000);
             DatagramPacket packet;
-            boolean running = true;
 
-            // get a few quotes
-            while (running) {
+            while (true) {
 
                 byte[] buf = new byte[256];
                 packet = new DatagramPacket(buf, buf.length);
                 socket.receive(packet);
 
                 String received = new String(packet.getData(), 0, packet.getLength());
-                System.out.println("Service Request: " + received);
+                System.out.println("Service request received for service: " + received);
 
                 if(received.equals(serviceName)){
                     String resp = String.format("%s:%d", ipAdress, port);
@@ -79,4 +77,20 @@ public class ServiceAnnouncer extends Thread {
             e.printStackTrace();
         }
     }
+
+    public void StopService(){
+
+        System.out.println("Stop service request received");
+
+        if (!socket.isClosed()) {
+            socket.close();
+        }
+
+        try {
+            this.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

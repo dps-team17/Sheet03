@@ -9,6 +9,7 @@ public class TestService {
 
         ServiceAnnouncer sa = new ServiceAnnouncer("Test", "127.0.0.1", 5000);
         sa.StartService();
+        sa.StopService();
 
         try {
             sa.join();
