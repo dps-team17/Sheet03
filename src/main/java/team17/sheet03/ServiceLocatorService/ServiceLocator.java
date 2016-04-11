@@ -7,10 +7,6 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by adanek on 07.04.2016.
- * Client
- */
 public class ServiceLocator {
 
     public ServiceLocator() {
@@ -38,7 +34,7 @@ public class ServiceLocator {
             String resp = new String(packet.getData(), 0, packet.getLength());
             final String[] parts = resp.split(":");
             if(parts.length != 2)
-                throw new InvalidDataException("Resonse does not match pattern: " + resp);
+                throw new InvalidDataException("Response does not match pattern: " + resp);
 
             address = new ServiceAddress(parts[0], Integer.parseInt(parts[1]));
 
@@ -56,7 +52,6 @@ public class ServiceLocator {
 
         List<ServiceAddress> servers = new ArrayList<>();
 
-        ServiceAddress address = null;
         byte[] buf = serviceName.getBytes();
         boolean timeOutReceived = false;
 
@@ -80,7 +75,7 @@ public class ServiceLocator {
                     String resp = new String(packet.getData(), 0, packet.getLength());
                     final String[] parts = resp.split(":");
                     if(parts.length != 2)
-                        throw new InvalidDataException("Resonse does not match pattern: " + resp);
+                        throw new InvalidDataException("Response does not match pattern: " + resp);
 
                     servers.add(new ServiceAddress(parts[0], Integer.parseInt(parts[1])));
                 }
@@ -89,8 +84,6 @@ public class ServiceLocator {
                 }
             }
 
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

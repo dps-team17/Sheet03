@@ -4,9 +4,8 @@ import team17.sheet03.ServiceLocatorService.ServiceAnnouncer;
 
 public class TestService {
 
-    private static Object lock = new Object();
-    private static  Thread mainThread = Thread.currentThread();
-    private static  Thread shutdownhook;
+    private static final Object lock = new Object();
+    private static final Thread mainThread = Thread.currentThread();
     private static boolean serviceRunning;
 
     public static void main(String[] args) {
@@ -45,12 +44,12 @@ public class TestService {
 
     // Handle Ctrl-C command
     private static void addShutdownHook() {
-        shutdownhook = new Thread() {
+        Thread shutdownHook = new Thread() {
             public void run() {
                 System.out.println("Demo service: Shutdown request received");
 
                 try {
-                    synchronized (lock){
+                    synchronized (lock) {
                         serviceRunning = false;
                         lock.notifyAll();
                     }
@@ -62,6 +61,6 @@ public class TestService {
             }
         };
 
-        Runtime.getRuntime().addShutdownHook(shutdownhook);
+        Runtime.getRuntime().addShutdownHook(shutdownHook);
     }
 }

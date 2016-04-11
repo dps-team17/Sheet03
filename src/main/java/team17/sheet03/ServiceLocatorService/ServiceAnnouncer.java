@@ -13,7 +13,7 @@ public class ServiceAnnouncer {
     private int announcerPort = DEFAULT_PORT;
 
     private final String serviceName;
-    private final String ipAdress;
+    private final String ipAddress;
     private final int port;
 
     private DatagramSocket socket;
@@ -22,7 +22,7 @@ public class ServiceAnnouncer {
 
     public ServiceAnnouncer(String serviceName, String ipAddress, int port) {
         this.serviceName = serviceName;
-        this.ipAdress = ipAddress;
+        this.ipAddress = ipAddress;
         this.port = port;
     }
 
@@ -51,7 +51,7 @@ public class ServiceAnnouncer {
         serviceThread = new Thread() {
             public void run() {
                 try {
-                    socket = new DatagramSocket(DEFAULT_PORT);
+                    socket = new DatagramSocket(announcerPort);
                     DatagramPacket packet;
 
                     if (debug) System.out.println("Service announcer: Started");
@@ -66,7 +66,7 @@ public class ServiceAnnouncer {
                         if (debug) System.out.println("Service request received for service: " + received);
 
                         if (received.equals(serviceName)) {
-                            String resp = String.format("%s:%d", ipAdress, port);
+                            String resp = String.format("%s:%d", ipAddress, port);
                             buf = resp.getBytes();
                             InetAddress address = packet.getAddress();
                             int port = packet.getPort();

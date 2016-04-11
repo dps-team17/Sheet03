@@ -1,8 +1,5 @@
 package team17.sheet03.ServiceLocatorService;
 
-/**
- * Created by adanek on 07.04.2016.
- */
 public class ServiceAddress {
 
     private String ipAddress;
