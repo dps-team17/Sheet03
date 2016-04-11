@@ -1,4 +1,4 @@
-package team17.sheet03;
+package team17.sheet03.ServiceLocatorService;
 
 import com.sun.media.sound.InvalidDataException;
 
