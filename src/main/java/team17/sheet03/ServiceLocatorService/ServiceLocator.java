@@ -9,9 +9,6 @@ import java.util.List;
 
 public class ServiceLocator {
 
-    public ServiceLocator() {
-    }
-
     public ServiceAddress locate(String serviceName) {
 
         ServiceAddress address = null;
